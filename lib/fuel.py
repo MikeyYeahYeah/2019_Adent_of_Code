@@ -6,9 +6,8 @@ def _calculation(mass):
 
 def total(mass):
     """Returns the total amount fuel required"""
-    fuel_weights = []
-    while mass >= 0:
-        mass = _calculation(mass)
-        if mass > 1:
-          fuel_weights.append(mass)
-    return sum(fuel_weights)
+    fuel = _calculation(mass)
+    if fuel < 0:
+        return 0
+    else:
+        return fuel + total(fuel)
