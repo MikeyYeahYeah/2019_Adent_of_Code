@@ -1,8 +1,8 @@
 import pytest
 import lib.intcode as intcode
 
-def test_num_extractor():
-    print(intcode.num_extractor([1,0,0,0,99], 0))
+def test__num_extractor():
+    print(intcode._num_extractor([1,0,0,0,99], 0))
 
 @pytest.mark.parametrize("code_list,answer_list", [
     ([1,0,0,0,99],[2,0,0,0,99]),

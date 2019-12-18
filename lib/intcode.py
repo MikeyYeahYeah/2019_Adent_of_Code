@@ -1,33 +1,27 @@
-def num_extractor(code_list, op_code_position):
-    pos_list = code_list[op_code_position + 1:4]
-    value_list = [code_list[i] for i in pos_list]
+def _num_extractor(code_list, op_code_position):
+    """Provided a list and a starting position, seeks the position and 
+       corresponding value for the first 2 elements and the position
+       of the last.  Returns a list."""
+    pos_list = code_list[op_code_position + 1 :op_code_position + 4]
+    value_list = [
+        code_list[pos_list[0]],
+        code_list[pos_list[1]],
+        pos_list[2]
+    ]
     return value_list
 
 def intcode(codes_list):
+    """Given a list of numbers, will decode using elf intcode logic."""
     OP_CODE_POSITION = 0
     op_code = codes_list[OP_CODE_POSITION]
 
     while op_code == 1 or op_code == 2:
+        value = _num_extractor(codes_list, OP_CODE_POSITION)
         if op_code == 1:
-            first_num_pos = codes_list[OP_CODE_POSITION + 1]
-            second_num_pos = codes_list[OP_CODE_POSITION + 2]
-            third_num_pos = codes_list[OP_CODE_POSITION + 3]
-
-            first_num = codes_list[first_num_pos]
-            second_num = codes_list[second_num_pos]
-            codes_list[third_num_pos] = first_num + second_num
-            OP_CODE_POSITION += 4
-            op_code = codes_list[OP_CODE_POSITION]
-        
+            codes_list[value[2]] = value[0] + value[1]
         if op_code == 2:
-            first_num_pos = codes_list[OP_CODE_POSITION + 1]
-            second_num_pos = codes_list[OP_CODE_POSITION + 2]
-            third_num_pos = codes_list[OP_CODE_POSITION + 3]
-
-            first_num = codes_list[first_num_pos]
-            second_num = codes_list[second_num_pos]
-            codes_list[third_num_pos] = first_num * second_num
-            OP_CODE_POSITION += 4
-            op_code = codes_list[OP_CODE_POSITION]
+            codes_list[value[2]] = value[0] * value[1]
+        OP_CODE_POSITION += 4
+        op_code = codes_list[OP_CODE_POSITION]
     
     return codes_list
